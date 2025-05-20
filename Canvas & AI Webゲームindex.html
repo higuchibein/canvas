@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5 Canvas & AI Webゲーム開発ロードマップ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .section-title {
+            font-size: 2.5rem; /* 40px */
+            font-weight: 800;
+            margin-bottom: 1.5rem; /* 24px */
+            text-align: center;
+        }
+        .section-subtitle {
+            font-size: 1.25rem; /* 20px */
+            color: #4A5568; /* gray-700 */
+            margin-bottom: 3rem; /* 48px */
+            text-align: center;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .accordion-title {
+            cursor: pointer;
+            padding: 1rem; /* 16px */
+            background-color: #EDF2F7; /* gray-200 */
+            border-radius: 0.5rem; /* 8px */
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-title:hover {
+            background-color: #E2E8F0; /* gray-300 */
+        }
+        .accordion-content {
+            padding: 1rem; /* 16px */
+            border: 1px solid #E2E8F0; /* gray-300 */
+            border-top: none;
+            border-radius: 0 0 0.5rem 0.5rem; /* 0 0 8px 8px */
+            display: none; /* Initially hidden */
+        }
+        .accordion-content pre {
+            background-color: #1A202C; /* gray-900 */
+            color: #F7FAFC; /* gray-100 */
+            padding: 1rem; /* 16px */
+            border-radius: 0.375rem; /* 6px */
+            overflow-x: auto;
+            font-family: 'Source Code Pro', monospace;
+        }
+        .accordion-content code {
+            font-family: 'Source Code Pro', monospace;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #CBD5E0; /* gray-400 */
+            padding: 0.75rem; /* 12px */
+            text-align: left;
+        }
+        th {
+            background-color: #E2E8F0; /* gray-300 */
+        }
+        .phase-icon {
+            font-size: 2rem;
+            margin-right: 0.5rem;
+            /* Default color, will be overridden by specific phase styles */
+            color: #4299E1; 
+        }
+        .ai-highlight {
+            background-color: #FFFBEB; /* yellow-50 (lighter yellow) */
+            border-left: 4px solid #FBBF24; /* amber-400 */
+            padding: 1rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.375rem;
+        }
+        .ai-highlight strong {
+            color: #B45309; /* amber-700 */
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem; /* 12px */
+            padding: 1.5rem; /* 24px */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .nav-link {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .nav-link:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .cta-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        .primary-cta {
+            background-color: #48BB78; /* green-500 */
+            color: white;
+        }
+        .primary-cta:hover {
+            background-color: #38A169; /* green-600 */
+        }
+        .secondary-cta {
+            background-color: #4299E1; /* blue-500 */
+            color: white;
+        }
+        .secondary-cta:hover {
+            background-color: #3182CE; /* blue-600 */
+        }
+        .gemini-glow {
+            box-shadow: 0 0 20px 7px rgba(118, 75, 162, 0.6); /* Brighter glow */
+            border: 2px solid rgba(118, 75, 162, 0.8);
+        }
+        .character-placeholder {
+            width: 150px;
+            height: 150px;
+            background-color: #E0E7FF; /* indigo-100 for a softer look */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem auto; /* mb-8 */
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.5); /* hero-bg color shadow */
+            font-size: 3rem; /* Larger icon */
+            color: #667EEA; /* hero-bg color */
+        }
+         .conclusion-character {
+            width: 120px;
+            height: 120px;
+            background-color: #C6F6D5; /* green-200 */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem auto; /* mb-8 */
+            box-shadow: 0 0 15px rgba(72, 187, 120, 0.5); /* primary-cta color shadow */
+            font-size: 2.5rem;
+            color: #48BB78; /* primary-cta color */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <nav class="hero-bg text-white p-4 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">ゲーム開発ロードマップ</a>
+            <div class="space-x-2 hidden md:block">
+                <a href="#introduction" class="nav-link">序論</a>
+                <a href="#phase1" class="nav-link">フェーズ1</a>
+                <a href="#phase2" class="nav-link">フェーズ2</a>
+                <a href="#phase3" class="nav-link">フェーズ3</a>
+                <a href="#phase4" class="nav-link">フェーズ4</a>
+                <a href="#phase5" class="nav-link">フェーズ5</a>
+                <a href="#phase6" class="nav-link">フェーズ6</a>
+                <a href="#conclusion" class="nav-link">結論</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden mt-2 space-y-1">
+            <a href="#introduction" class="block nav-link text-center">序論</a>
+            <a href="#phase1" class="block nav-link text-center">フェーズ1</a>
+            <a href="#phase2" class="block nav-link text-center">フェーズ2</a>
+            <a href="#phase3" class="block nav-link text-center">フェーズ3</a>
+            <a href="#phase4" class="block nav-link text-center">フェーズ4</a>
+            <a href="#phase5" class="block nav-link text-center">フェーズ5</a>
+            <a href="#phase6" class="block nav-link text-center">フェーズ6</a>
+            <a href="#conclusion" class="block nav-link text-center">結論</a>
+        </div>
+    </nav>
+
+    <header class="hero-bg text-white py-20 px-6">
+        <div class="container mx-auto text-center">
+            <div class="character-placeholder">
+                <i class="fas fa-gamepad"></i><i class="fas fa-plus fa-xs mx-1"></i><i class="fas fa-brain"></i>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                HTML5 Canvas & AI で創る、<br class="hidden md:inline">次世代Webゲーム開発ロードマップ
+            </h1>
+            <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto">
+                アイデアからリリースまで、GeminiのようなAIがあなたの創造力を加速する。
+                インタラクティブなグラフィックとAIのパワーを融合させ、未体験のゲームを世界に送り出そう！
+            </p>
+            <a href="#introduction" class="cta-button primary-cta text-lg">
+                <i class="fas fa-rocket mr-2"></i>ロードマップを探索する
+            </a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-6">
+        <section id="introduction" class="py-16">
+            <h2 class="section-title text-purple-600">
+                <i class="fas fa-book-open phase-icon text-purple-500"></i>はじめに：なぜHTML5 CanvasとAIなのか？
+            </h2>
+            <p class="section-subtitle">
+                このロードマップは、HTML5 Canvasを基盤としたWebゲーム開発の全貌を明らかにし、AIがいかに開発プロセスを革新するかを探求します。
+            </p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-700">目的とCanvasの位置づけ</h3>
+                    <p class="text-gray-600">HTML5 Canvasは、ウェブ上で動的な2Dグラフィックスを描画する強力な要素です。本ロードマップは、その可能性を最大限に引き出すための体系的なガイドです。</p>
+                </div>
+                <div class="card gemini-glow">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-700"><i class="fas fa-brain mr-2"></i>GeminiとAIツールの活用</h3>
+                    <p class="text-gray-600">Geminiのような先進AIは、コード生成、アイデア発想、バグ修正、アセット作成支援など、開発のあらゆる場面であなたの強力なパートナーとなります。</p>
+                    <div class="ai-highlight mt-4">
+                        <p><strong>AIによる支援の例:</strong> 特定の描画処理のコードスニペット生成、ゲームロジックの提案、プロトタイプ用アセットの迅速な作成など。</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-700">Webゲーム開発の魅力と挑戦</h3>
+                    <p class="text-gray-600">インストール不要で広範なユーザーにリーチできる魅力と、互換性やパフォーマンス最適化といった挑戦について解説します。</p>
+                </div>
+            </div>
+        </section>
+
+        <div id="phasesContainer">
+            <section id="phase1" class="py-12">
+                <h2 class="section-title text-blue-600"><i class="fas fa-pencil-ruler phase-icon text-blue-500"></i>フェーズ1：基礎固めと計画</h2>
+                <p class="section-subtitle">ゲーム開発の土台となるアイデアを具体化し、必要な技術知識を習得します。ここでの準備がプロジェクトの成功を左右します。</p>
+                <div class="space-y-4">
+                    <div class="accordion">
+                        <div class="accordion-title">1.1. コンセプト策定：アイデアの探求と定義 <i class="fas fa-chevron-down transition-transform duration-300"></i></div>
+                        <div class="accordion-content">
+                            <p>魅力的なゲームコンセプトを策定します。ブレインストーミング、ジャンル選定、コアメカニクスの定義、ターゲット層の明確化、企画書の作成が重要です。</p>
+                            <div class="ai-highlight">
+                                <p><strong><i class="fas fa-lightbulb mr-1"></i>AI活用ポイント (コンセプト策定):</strong> Geminiに新しいゲームジャンルの組み合わせやメカニクスのアイデア出し、ストーリー草案作成を依頼し、創造性を刺激します。</p>
+                            </div>
+                            <p class="mt-2"><strong>企画書の重要性:</strong> 具体的な企画書は、開発の羅針盤となり、手戻りを減らし、プロジェクト全体の成功確率を高めます。</p>
+                        </div>
+                    </div>
+                    <div class="accordion">
+                        <div class="accordion-title">1.2. 技術的セットアップ：開発環境の構築 <i class="fas fa-chevron-down transition-transform duration-300"></i></div>
+                        <div class="accordion-content">
+                            <p>HTMLファイルの基本構造、テキストエディタ (VS Codeなど)、ウェブブラウザ (Chromeなど)、バージョン管理システム (Git) を準備します。ローカル開発サーバーのセットアップも推奨されます。</p>
+                            <p class="font-semibold mt-2">HTML基本構造:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My Canvas Game&lt;/title&gt;
+    &lt;style&gt;
+        canvas { border: 1px solid black; display: block; margin: 1rem auto; } /* Centered canvas */
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;canvas id="gameCanvas" width="800" height="600"&gt;&lt;/canvas&gt;
+    &lt;script src="game.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                        </div>
+                    </div>
+                    <div class="accordion">
+                        <div class="accordion-title">1.3. HTML5 Canvas APIの基礎理解：描画のABC <i class="fas fa-chevron-down transition-transform duration-300"></i></div>
+                        <div class="accordion-content">
+                            <p>2Dレンダリングコンテキストの取得、基本的な図形描画 (矩形、線、円)、色とスタイル、テキスト描画、画像描画、座標系、変形 (translate, rotate, scale)、状態の保存と復元 (save, restore) を学びます。</p>
+                            <div class="table-container">
+                                <h4 class="font-semibold my-2">表1：HTML5 Canvas API主要メソッド</h4>
+                                <table>
+                                    <thead>
+                                        <tr><th>メソッド名</th><th>目的</th><th>ゲーム開発での簡単な使用例</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td><code>fillRect(x, y, w, h)</code></td><td>塗りつぶされた矩形を描画</td><td>プレイヤー、障害物、UI背景</td></tr>
+                                        <tr><td><code>strokeRect(x, y, w, h)</code></td><td>矩形の枠線を描画</td><td>ゲームエリア境界、デバッグ用ボックス</td></tr>
+                                        <tr><td><code>beginPath()</code></td><td>新しいパスの作成を開始</td><td>線、円、複雑な形状の描画準備</td></tr>
+                                        <tr><td><code>moveTo(x, y)</code></td><td>パスの開始点を指定</td><td>線の始点設定</td></tr>
+                                        <tr><td><code>lineTo(x, y)</code></td><td>現在点から指定点まで直線を引く</td><td>多角形の辺、経路描画</td></tr>
+                                        <tr><td><code>arc(x, y, r, sA, eA)</code></td><td>円または円弧を描画</td><td>円形キャラ、弾、爆発エフェクト</td></tr>
+                                        <tr><td><code>fillText(text, x, y)</code></td><td>塗りつぶされたテキストを描画</td><td>スコア、メッセージ表示</td></tr>
+                                        <tr><td><code>drawImage(img, dx, dy)</code></td><td>画像を描画</td><td>キャラクタースプライト、背景画像</td></tr>
+                                        <tr><td><code>save()</code></td><td>現在の描画コンテキスト状態を保存</td><td>一時的な変形・スタイル変更前に使用</td></tr>
+                                        <tr><td><code>restore()</code></td><td>最後に保存された状態を復元</td><td><code>save()</code>で保存した状態に戻す</td></tr>
+                                        <tr><td><code>translate(x, y)</code></td><td>原点を移動</td><td>オブジェクトを特定位置に描画</td></tr>
+                                        <tr><td><code>rotate(angle)</code></td><td>コンテキストを回転</td><td>オブジェクトの回転表示</td></tr>
+                                        <tr><td><code>scale(x, y)</code></td><td>コンテキストを拡大・縮小</td><td>オブジェクトのサイズ変更</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="mt-2">Canvas APIは低レベルですが、描画の仕組みを深く理解する絶好の機会を提供します。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="phase2" class="py-12 bg-white rounded-lg shadow-xl my-8 p-6 md:p-10">
+                <h2 class="section-title text-green-600"><i class="fas fa-cogs phase-icon text-green-500"></i>フェーズ2：コアゲーム開発</h2>
+                <p class="section-subtitle">ゲームループの確立、アセット表示、プレイヤー実装と操作、基本アニメーションを通じて、コンセプトに命を吹き込みます。</p>
+                <div class="space-y-4">
+                    <div class="accordion">
+                        <div class="accordion-title">2.1. ゲームループの実装：ゲーム進行の心臓部 <i class="fas fa-chevron-down transition-transform duration-300"></i></div>
+                        <div class="accordion-content">
+                            <p><code>requestAnimationFrame()</code> を利用し、時間ベースのアニメーション (Delta Time) でゲーム状態の更新 (Update) と描画 (Render) を繰り返します。</p>
+                            <p class="font-semibold mt-2"><code>requestAnimationFrame</code>利用例:</p>
+<pre><code class="language-javascript">let lastTime = 0;
+function gameLoop(timestamp) {
+    const deltaTime = (timestamp - lastTime) / 1000; // 秒単位
+    lastTime = timestamp;
+
+    update(deltaTime); // ゲーム状態更新
+    render();          // 描画処理
+
+    requestAnimationFrame(gameLoop); // 次のフレームを要求
+}
+requestAnimationFrame(gameLoop); // ループ開始</code></pre>
+                            <div class="table-container">
+                                <h4 class="font-semibold my-2">表2：ゲームループ実装手法の比較</h4>
+                                <table>
+                                    <thead><tr><th>手法</th><th>メリット</th><th>デメリット</th><th>推奨ケース</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><code>setInterval</code></td><td>実装が容易</td><td>タイミング精度が低い</td><td>単純な繰り返し処理 (メインループ非推奨)</td></tr>
+                                        <tr><td><code>setTimeout</code></td><td>柔軟な制御が可能</td><td>タイミング精度に課題</td><td>遅延実行 (メインループ非推奨)</td></tr>
+                                        <tr><td><code>requestAnimationFrame</code></td><td>スムーズで効率的、ブラウザ描画同期</td><td>実行間隔を直接指定不可</td><td><strong>ゲームのメインループに最適</strong></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="accordion">
+                        <div class="accordion-title">2.2. アセット（素材）の準備と管理 <i class="fas fa-chevron-down transition-transform duration-300"></i></div>
+                        <div class="accordion-content">
+                            <p>画像 (スプライト、背景)、音声 (BGM、SE)、フォント、レベルデータなどのアセットを用意します。自作、フリー素材、有料アセット、AIによる生成支援などの方法があります。</p>
+                            <div class="ai-highlight">
+                                <p><strong><i class="fas fa-image mr-1"></i>AI活用ポイント (アセット):</strong> Geminiにプロトタイプ用の仮アセット（例：キャラクターの立ち絵、アイテムアイコン）を生成させ、開発初期のボトルネックを軽減します。</p>
+                            </div>
+                            <p class="mt-2"><strong>アセットのプリロード:</strong> ゲーム開始前に必要なアセットを全て読み込み、ローディング画面を表示することが推奨されます。</p>
+                        </div>
+                    </div>
+                    <div class="accordion">
+                        <div class="accordion-title">2.3. エンティティとプレイヤーの実装 <i class="fas fa-chevron-down transition-transform duration-300"></i></div>
+                        <div class="accordion-content">
+                            <p>オブジェクト指向プログラミング (OOP) を用いて、プレイヤー、敵、アイテムなどのエンティティをクラスとして定義します。各エンティティはプロパティ (位置、サイズ、体力など) とメソッド (update, draw, onCollisionなど) を持ちます。</p>
+                            <p class="font-semibold mt-2">簡単なPlayerクラスの例:</p>
+<pre><code class="language-javascript">class Player {
+    constructor(x, y, width, height, color) {
+        this.x = x; this.y = y;
+        this.width = width; this.height = height;
+        this.color = color; this.speed = 200;
+        this.image = new Image(); // プレイヤー画像用
+        // this.image.src = 'path/to/player_sprite.png'; // 例
+        // ... 他のプロパティ (velocityY, isJumpingなど)
+    }
+
+    update(deltaTime, input) {
+        // 移動ロジック (input.isPressed('ArrowLeft')など)
+        // ジャンプ処理、重力処理
+    }
+
+    draw(ctx) {
+        // if (this.image.complete) { // 画像が読み込まれていれば描画
+        //    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        // } else { // 未ロードなら代替描画
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        // }
+    }
+
+    jump() { /* ジャンプのロジック */ }
+}</code></pre>
+                            <p class="mt-2">スプライトアニメーションは、<code>drawImage()</code>でスプライトシートの特定部分を切り替えて表示することで実現します。</p>
+                        </div>
+                    </div>
+                    <div class="accordion">
+                        <div class="accordion-title">2.4. ユーザー入力処理 <i class="fas fa-chevron-down transition-transform duration-300"></i></div>
+                        <div class="accordion-content">
+                            <p><code>addEventListener</code> を用いてキーボード (keydown, keyup)、マウス (mousedown, mousemove, click)、タッチ (touchstart, touchmove, touchend) イベントを捕捉します。</p>
+                            <p class="font-semibold mt-2">キーボード入力処理の例:</p>
+<pre><code class="language-javascript">const keys = {};
+window.addEventListener('keydown', (event) => { keys[event.key] = true; });
+window.addEventListener('keyup', (event) => { keys[event.key] = false; });
+
+// ゲームループのupdate内で使用
+// if (keys['ArrowLeft']) { player.moveLeft(); }</code></pre>
+                            <p class="mt-2">マウス座標は <code>event.clientX/Y</code> と <code>canvas.getBoundingClientRect()</code> を使ってCanvas上の相対座標を取得します。</p>
+                        </div>
+                    </div>
+                    <div class="accordion">
+                        <div class="accordion-title">2.5. 基本的なアニメーション <i class="fas fa-chevron-down transition-transform duration-300"></i></div>
+                        <div class="accordion-content">
+                            <p>位置ベースのアニメーション (座標を速度とdeltaTimeで更新)、スプライトアニメーション (フレームアニメーション)、回転・拡大縮小アニメーション (<code>ctx.rotate()</code>, <code>ctx.scale()</code>) を実装します。</p>
+                            <p class="font-semibold mt-2">スプライトアニメーションのロジック例:</p>
+<pre><code class="language-javascript">// Spriteクラス内
+updateAnimation(deltaTime) {
+    this.animationTimer += deltaTime * 1000;
+    if (this.animationTimer >= this.animationInterval) {
+        this.currentFrameIndex = (this.currentFrameIndex + 1) % this.animationFrames.length;
+        this.animationTimer = 0;
+    }
+}
+drawSprite(ctx) {
+    const frame = this.animationFrames[this.currentFrameIndex];
+    ctx.drawImage(this.spriteSheet,
+        frame.sx, frame.sy, frame.sWidth, frame.sHeight, // ソース矩形
+        this.x, this.y, this.width, this.height           // 描画先矩形
+    );
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="phase3" class="py-12">
+                <h2 class="section-title text-yellow-500"><i class="fas fa-gamepad phase-icon text-yellow-400"></i>フェーズ3：ゲームプレイメカニクスと機能実装</h2>
+                <p class="section-subtitle">衝突判定、状態管理、UI/UX、サウンドなどを組み込み、ゲームの面白さの中核を形成します。</p>
+                 <div class="space-y-4">
+                    <div class="accordion">
+                        <div class="accordion-title">3.1. 衝突判定 <i class="fas fa-chevron-down transition-transform duration-300"></i></div>
+                        <div class="accordion-content">
+                            <p>矩形同士 (AABB)、円同士の衝突判定アルゴリズムを実装し、衝突応答 (ダメージ、アイテム取得など) を定義します。</p>
+                            <p class="font-semibold mt-2">矩形衝突判定 (AABB):</p>
+<pre><code class="language-javascript">function checkRectCollision(obj1, obj2) {
+    return obj1.x < obj2.x + obj2.width &&
+           obj1.x + obj1.width > obj2.x &&
+           obj1.y < obj2.y + obj2.height &&
+           obj1.y + obj1.height > obj2.y;
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="accordion">
+                        <div class="accordion-title">3.2. 状態管理 <i class="fas fa-chevron-down transition-transform duration-300"></i></div>
+                        <div class="accordion-content">
+                            <p>ステートマシン (FSM) を導入し、タイトル画面、プレイ中、ゲームオーバーなどのゲーム状態を管理します。各状態に onEnter, onUpdate, onExit 処理を定義します。</p>
+                        </div>
+                    </div>
+                    <div class="accordion">
+                        <div class="accordion-title">3.3. UI/UXデザインと実装 <i class="fas fa-chevron-down transition-transform duration-300"></i></div>
+                        <div class="accordion-content">
+                            <p>スコア表示、ボタン、体力ゲージなどのUI要素をCanvas APIまたはDOM要素で実装します。直感性、視認性、フィードバック、一貫性、モバイル操作性を考慮します。</p>
+                        </div>
+                    </div>
+                    <div class="accordion">
+                        <div class="accordion-title">3.4. サウンド統合 <i class="fas fa-chevron-down transition-transform duration-300"></i></div>
+                        <div class="accordion-content">
+                            <p>Web Audio API を活用してBGMやSEを再生します。プリロード、音量調整、ループ再生などを実装します。</p>
+                             <div class="ai-highlight">
+                                <p><strong><i class="fas fa-music mr-1"></i>AI活用ポイント (サウンド):</strong> Geminiに特定のシーンに合うBGMの雰囲気や、効果音のアイデアを提案してもらうことができます。</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="accordion">
+                        <div class="accordion-title">3.5. (オプション) 高度なメカニクス <i class="fas fa-chevron-down transition-transform duration-300"></i></div>
+                        <div class="accordion-content">
+                            <p>物理演算 (Matter.jsなど)、敵AI、手続き型生成、タイルマップ、イベントシステムなどを導入し、ゲームに深みを与えます。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ai-spotlight" class="py-16 bg-purple-100 rounded-lg shadow-xl my-8 p-6 md:p-10">
+                <h2 class="section-title text-purple-700"><i class="fas fa-robot phase-icon text-purple-600"></i>開発を加速するAIの力：Geminiと共に</h2>
+                <p class="section-subtitle">GeminiのようなAIは、Webゲーム開発のあらゆるフェーズであなたの強力なアシスタントになります。</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="card text-center hover:bg-yellow-50">
+                        <i class="fas fa-lightbulb text-5xl text-yellow-400 mb-4 transform group-hover:scale-110 transition-transform"></i>
+                        <h4 class="text-xl font-semibold mb-2 text-yellow-700">アイデア発想</h4>
+                        <p class="text-gray-600 text-sm">斬新なゲームメカニクスやストーリーの種をAIと共に見つけよう。</p>
+                    </div>
+                    <div class="card text-center hover:bg-blue-50">
+                        <i class="fas fa-code text-5xl text-blue-500 mb-4 transform group-hover:scale-110 transition-transform"></i>
+                        <h4 class="text-xl font-semibold mb-2 text-blue-700">コード生成</h4>
+                        <p class="text-gray-600 text-sm">複雑なアルゴリズムや定型的なコードをAIに任せて時間短縮。</p>
+                    </div>
+                    <div class="card text-center hover:bg-red-50">
+                        <i class="fas fa-bug-slash text-5xl text-red-500 mb-4 transform group-hover:scale-110 transition-transform"></i>
+                        <h4 class="text-xl font-semibold mb-2 text-red-700">デバッグ支援</h4>
+                        <p class="text-gray-600 text-sm">バグの原因特定や修正案の提示で、開発をスムーズに。</p>
+                    </div>
+                    <div class="card text-center hover:bg-green-50">
+                        <i class="fas fa-palette text-5xl text-green-500 mb-4 transform group-hover:scale-110 transition-transform"></i>
+                        <h4 class="text-xl font-semibold mb-2 text-green-700">アセット作成</h4>
+                        <p class="text-gray-600 text-sm">プロトタイプ用の画像やサウンドをAIが迅速に生成。</p>
+                    </div>
+                </div>
+                <div class="text-center mt-10">
+                     <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" class="cta-button secondary-cta text-lg">
+                        <i class="fas fa-external-link-alt mr-2"></i>Geminiを試してみる
+                    </a>
+                </div>
+            </section>
+
+            <section id="phase4" class="py-12">
+                <h2 class="section-title text-indigo-600"><i class="fas fa-magic phase-icon text-indigo-500"></i>フェーズ4：洗練と最適化</h2>
+                <p class="section-subtitle">高度なアニメーション、パーティクルシステム、ピクセル操作によるエフェクトで視覚的魅力を高め、プロファイリングや描画処理の最適化でスムーズなゲームプレイを実現します。ゲームバランス調整も重要です。</p>
+                 </section>
+
+            <section id="phase5" class="py-12 bg-white rounded-lg shadow-xl my-8 p-6 md:p-10">
+                <h2 class="section-title text-teal-600"><i class="fas fa-check-double phase-icon text-teal-500"></i>フェーズ5：テストと公開</h2>
+                <p class="section-subtitle">バグ修正、いじわるテスト、クロスブラウザ/デバイスでのテスト、ユーザー受け入れテストを実施し品質を保証します。その後、GitHub Pages, Netlify, Vercelなどのホスティングサービスを利用してゲームを公開します。</p>
+                 </section>
+
+            <section id="phase6" class="py-12">
+                <h2 class="section-title text-pink-600"><i class="fas fa-graduation-cap phase-icon text-pink-500"></i>フェーズ6：(オプション) ゲームエンジン活用とさらなる学習</h2>
+                <p class="section-subtitle">Phaser, PixiJS, Matter.jsなどのゲームエンジンやライブラリを検討し、開発効率と機能性を向上させます。MDN、技術ブログ、オンラインコース、GitHubプロジェクトなどを通じて継続的に学習します。</p>
+                 <div class="table-container">
+                    <h4 class="font-semibold my-2 text-center">表3：軽量JavaScriptゲームエンジン/ライブラリ概要</h4>
+                    <table>
+                        <thead><tr><th>エンジン/ライブラリ</th><th>主な特徴</th><th>得意な処理</th><th>レンダリング</th><th>適したゲームジャンル</th></tr></thead>
+                        <tbody>
+                            <tr><td>Phaser</td><td>多機能、オールインワン</td><td>2Dゲーム全般</td><td>WebGL (Canvasフォールバック)</td><td>RPG, アクション, パズル等</td></tr>
+                            <tr><td>PixiJS</td><td>高速2Dレンダラー</td><td>大量スプライト描画</td><td>WebGL (Canvasフォールバック)</td><td>パフォーマンス重視2Dゲーム</td></tr>
+                            <tr><td>EaselJS (CreateJS)</td><td>FlashライクAPI</td><td>基本的な2D描画</td><td>Canvas</td><td>シンプルな2Dゲーム</td></tr>
+                            <tr><td>Matter.js</td><td>2D物理演算</td><td>リアルな物理挙動</td><td>(描画は他と組み合わせ)</td><td>物理パズル、アクション</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                 </section>
+
+        </div> 
+        <section id="conclusion" class="py-20 text-center bg-gray-800 text-white rounded-lg shadow-xl my-8 p-6 md:p-10">
+            <div class="conclusion-character">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h2 class="text-4xl font-extrabold mb-6">さあ、創造の旅を始めよう！</h2>
+            <p class="text-lg mb-4 max-w-2xl mx-auto">
+                このロードマップは、HTML5 CanvasとAIを活用したWebゲーム開発の道しるべです。
+                AIをパートナーに、あなたのユニークなアイデアを形にし、世界中のプレイヤーを魅了するゲームを創り上げてください。
+            </p>
+            <p class="text-lg mb-10 max-w-2xl mx-auto">
+                挑戦を恐れず、楽しみながら、素晴らしいゲーム開発の旅を！
+            </p>
+            <a href="#phase1" class="cta-button primary-cta text-lg mr-4">
+                <i class="fas fa-play mr-2"></i>最初のステップへ
+            </a>
+            <a href="https://github.com/topics/html5-canvas-game" target="_blank" rel="noopener noreferrer" class="cta-button secondary-cta text-lg">
+                <i class="fab fa-github mr-2"></i>GitHubで事例を探す
+            </a>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 py-12 text-center px-6">
+        <div class="container mx-auto">
+            <p class="mb-4">&copy; 2024-2025 Webゲーム開発ロードマップ. AIと共に創造の未来へ。</p>
+            <div class="space-x-4">
+                <a href="#" class="hover:text-white transition-colors"><i class="fab fa-twitter fa-lg"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i class="fab fa-github fa-lg"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i class="fas fa-envelope fa-lg"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Accordion functionality
+        const accordions = document.querySelectorAll('.accordion');
+        accordions.forEach(accordion => {
+            const title = accordion.querySelector('.accordion-title');
+            const content = accordion.querySelector('.accordion-content');
+            const icon = title.querySelector('i.fa-chevron-down');
+
+            title.addEventListener('click', () => {
+                const isVisible = content.style.display === 'block';
+                // Option: Close all other accordions in the same section when one is opened
+                // const parentSection = accordion.closest('section');
+                // if (parentSection) {
+                //     parentSection.querySelectorAll('.accordion').forEach(otherAccordion => {
+                //         if (otherAccordion !== accordion) {
+                //             otherAccordion.querySelector('.accordion-content').style.display = 'none';
+                //             const otherIcon = otherAccordion.querySelector('.accordion-title i.fa-chevron-down');
+                //             if (otherIcon) otherIcon.classList.remove('rotate-180');
+                //         }
+                //     });
+                // }
+                
+                content.style.display = isVisible ? 'none' : 'block';
+                if (icon) {
+                    icon.classList.toggle('rotate-180', !isVisible);
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            // Close mobile menu when a link is clicked
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Adjust scroll position to account for sticky header height if necessary
+                    // const headerOffset = document.querySelector('nav').offsetHeight;
+                    // const elementPosition = targetElement.getBoundingClientRect().top;
+                    // const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    // window.scrollTo({
+                    //      top: offsetPosition,
+                    //      behavior: "smooth"
+                    // });
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
